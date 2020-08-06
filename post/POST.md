@@ -187,7 +187,7 @@ First, we need to include the [groovy dependency](https://mvnrepository.com/arti
 ```
 
 Now we have the appropriate *Groovy* API classes like *GroovyShell* and *Binding* in our class loader.
-We now need add the following to our `build` section in our `pom.xml`:
+We now need to add the following to our `build` section in our `pom.xml`:
 
 ```xml
 <build>
