@@ -7,7 +7,6 @@
   <groupId>info.tomfi.tutorials</groupId>
   <artifactId>groovy-script-java-project-tutorial</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-
   <name>groovy-script-in-a-java-project-tutorial</name>
   <url>https://github.com/TomerFi/groovy-script-java-project-tutorial</url>
   <description>Using Groovy scripts in a Java project tutorial</description>
@@ -21,21 +20,10 @@
 
   <developers>
     <developer>
-      <id>tomerfi</id>
-      <name>Tomer Figenblat</name>
-      <email>tomer.figenblat@gmail.com</email>
+      <id>TomerFi</id>
       <url>https://github.com/TomerFi</url>
-      <roles>
-        <role>Software developer</role>
-      </roles>
-      <timezone>Asia/Jerusalem</timezone>
     </developer>
   </developers>
-
-  <scm>
-    <url>https://github.com/TomerFi/groovy-script-java-project-tutorial</url>
-    <connection>scm:git:https://github.com/TomerFi/groovy-script-java-project-tutorial.git</connection>
-  </scm>
 
   <dependencies>
     <dependency>
