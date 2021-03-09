@@ -9,7 +9,7 @@
   <version>0.0.1-SNAPSHOT</version>
 
   <name>groovy-script-in-a-java-project-tutorial</name>
-  <url>https://portfolio.tomfi.info/tutorials.html</url>
+  <url>https://github.com/TomerFi/groovy-script-java-project-tutorial</url>
   <description>Using Groovy scripts in a Java project tutorial</description>
 
   <properties>
