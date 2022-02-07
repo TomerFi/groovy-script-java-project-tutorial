@@ -3,6 +3,7 @@ title: Groovying with Java
 published: false
 description: Using Groovy scripts in a Java project tutorial
 tags: ["java", "groovy", "tutorial", "code"]
+cover_image: https://source.unsplash.com/WrYAR-yDwe8
 ---
 
 ## Groovying with Java
