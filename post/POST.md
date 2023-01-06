@@ -6,34 +6,14 @@ tags: ["java", "groovy", "tutorial", "code"]
 cover_image: https://source.unsplash.com/WrYAR-yDwe8
 ---
 
-## Groovying with Java
-
-If you haven't combined [Groovy](https://groovy-lang.org/) scripts with your [Java](https://www.java.com/)
-projects yet...
-
-You're missing out...</br>
-It's super easy with [Maven](https://maven.apache.org/),</br>
-and it'll make your code more modular and elegant.
-
-But most importantly,</br>
-you'll have some fun scripting and if nothing else,</br>
-you'll most certainly benefit from some of the *grooviest* features,</br>
-including the magic that is [Groovy's GString](https://groovy-lang.org/syntax.html#all-strings)!</br>
-:smiley:
+Combining [Groovy](https://groovy-lang.org/) scripts in our [Java](https://www.java.com/)-based code, is easy with [Maven](https://maven.apache.org/).
 
 You can check out the code for this tutorial in [Github][0].
 
-## The given environment
+Let's say we need to produce a text message for sending to customers registering to some sort of call queue for informing them that we got their registration request.</br>
+The message should include the customer name, queue number, and an informational greeting of some sort.
 
-Let's say you have a service for connecting customers to representatives via some sort of messaging service.
-
-When the customer first reaches out to the service,</br>
-he should be responded with a standard message that includes his name,
-his queue number, and an informational greeting of some sort.
-
-We have a couple of ways to accomplish that in *Java*.</br>
-
-### Old-school: method invoking
+We have a couple of ways to accomplish that in *Java*.
 
 First, we can use a basic method that takes the *name* and *queue number* as arguments:
 
@@ -42,9 +22,6 @@ private static String createMessage(final String name, final int queueNum) {
   return String.format(
       "Hello %s, you're number %d, please wait patiently, here is some info:\n" +
       "Anim incididunt deserunt ex ad do aliquip.\n" +
-      "Ullamco est Lorem nisi magna duis esse laboris commodo eu.\n" +
-      "Anim laborum commodo sint est dolor veniam id non sint aliquip amet pariatur.\n" +
-      "Ex non incididunt duis aliqua qui quis eiusmod ex eiusmod irure nisi sint anim.\n" +
       "Ipsum voluptate laboris eiusmod sint ea do.", name, queueNum);
 }
 
@@ -53,19 +30,13 @@ public String getMessage(final String name, final int queueNum) {
 }
 ```
 
-### New-school: bi-function applying
-
-Well... It is **2020**...</br>
-Let's write this as a *BiFunction*:
+Let's try this as a *BiFunction*:
 
 ```java
 private static final BiFunction<String, Integer, String> createMessage =
     (name, queueNum) -> String.format(
       "Hello %s, you're number %d, please wait patiently, here is some info:\n" +
       "Anim incididunt deserunt ex ad do aliquip.\n" +
-      "Ullamco est Lorem nisi magna duis esse laboris commodo eu.\n" +
-      "Anim laborum commodo sint est dolor veniam id non sint aliquip amet pariatur.\n" +
-      "Ex non incididunt duis aliqua qui quis eiusmod ex eiusmod irure nisi sint anim.\n" +
       "Ipsum voluptate laboris eiusmod sint ea do.", name, queueNum);
 
 public String getMessage(final String name, final int queueNum) {
@@ -73,28 +44,16 @@ public String getMessage(final String name, final int queueNum) {
 }
 ```
 
-### Even better: function currying
+For the above implementations, adding an argument, i.e. an eta, will complicate our code.
 
-If we'll ever need to add a couple of more arguments to the mix,</br>
-let's say an eta...</br>
-We'll have to think out of the box here,</br>
-maybe use a `POJO` as the argument or use [javatupels](https://www.javatuples.org/).</br>
-Maybe create a `TriFunction` interface...
-
-There are numerous possibilities.</br>
-For instance, we can switch to *function currying*.</br>
-It will make it easier to add arguments later on,</br>
-and... well...</br>
-It's fun invoking currying functions, am I right? :grin:
+So let's do *function currying*, it will make it easier to add arguments later on,</br>
+and... well... it's fun invoking currying functions, am I right? :grin:
 
 ```java
 private static final Function<String, Function<Integer, String>> createMessage =
     name -> queueNum -> String.format(
       "Hello %s, you're number %d, please wait patiently, here is some info:\n" +
       "Anim incididunt deserunt ex ad do aliquip.\n" +
-      "Ullamco est Lorem nisi magna duis esse laboris commodo eu.\n" +
-      "Anim laborum commodo sint est dolor veniam id non sint aliquip amet pariatur.\n" +
-      "Ex non incididunt duis aliqua qui quis eiusmod ex eiusmod irure nisi sint anim.\n" +
       "Ipsum voluptate laboris eiusmod sint ea do.", name, queueNum);
 
 public String getMessage(final String name, final int queueNum) {
@@ -102,11 +61,8 @@ public String getMessage(final String name, final int queueNum) {
 }
 ```
 
-### Last but not least: groovy scripting
-
-If you're like me,</br>
-and you just hate seeing big long constant strings in your code.</br>
-Then let's try this as a `Groovy Script` with a script called `create_message.groovy`:
+Now, Let's give [Groovy](https://groovy-lang.org/) a try.</br>
+We'll create *Groovy Script* called *create_message.groovy*:
 
 ```groovy
 def name = bindName
@@ -114,22 +70,14 @@ def queueNum = bindQueueNum
 
 """Hello ${name}, you're number ${queueNum}, please wait patiently, here is some info:
 Anim incididunt deserunt ex ad do aliquip.
-Ullamco est Lorem nisi magna duis esse laboris commodo eu.
-Anim laborum commodo sint est dolor veniam id non sint aliquip amet pariatur.
-Ex non incididunt duis aliqua qui quis eiusmod ex eiusmod irure nisi sint anim.
 Ipsum voluptate laboris eiusmod sint ea do."""
 ```
 
-Please note:
-
 - The `def` statements allow us to bind arguments from the shell.
-- The `"""` marks the text as a `GString`, which allows us, in this case to:
-  - Easily incorporate the arguments with no `String.format` required.
-  - Produce multi-line strings without worrying about line breaks and long lines.
-- What you might have noticed missing here, is the `return` statement.</br>
-  With *Groovy* the last statement **is** the return statement.
+- The `"""` marks the text as a `GString`, which allows us to leverage string interpolation and implied line breaks.
+- In *Groovy* last statement **is** the return statement.
 
-Now let's invoke the script with some intentionally boiler plated *Java* code:
+Now let's invoke the script from our *Java* code:
 
 ```java
 public String getMessage(final String name, final int queueNum) {
@@ -152,16 +100,9 @@ public String getMessage(final String name, final int queueNum) {
 }
 ```
 
-:boom:</br>
-Can you see how easy it is to add arguments?</br>
-Just add them to the script, and add the binding to the invoking class.</br>
-No more "scratching your head" when it comes to concatenating long strings...</br>
-:relieved:
+Now, if we want to add an eta, it's as simple as editing the text and binding another property. :relieved:
 
-The real conundrum here is,</br>
-How do we get the script in our class loader :question:
-
-It's easy with *Maven*, let's say this is our project layout:
+To get our our script into our class path with *Maven*, let's say this is our project layout:
 
 ```text
 - project
@@ -175,7 +116,7 @@ It's easy with *Maven*, let's say this is our project layout:
 ```
 
 First, we need to include the [groovy dependency](https://mvnrepository.com/artifact/org.codehaus.groovy/groovy).</br>
-(Note the version, which was the latest when this tutorial was written).
+This will give access to *Groovy*'s API, i.e. the *GroovyShell* and *Binding* classes.
 
 ```xml
 <dependencies>
@@ -187,8 +128,8 @@ First, we need to include the [groovy dependency](https://mvnrepository.com/arti
 </dependencies>
 ```
 
-Now we have the appropriate *Groovy* API classes like *GroovyShell* and *Binding* in our class loader.
-We now need to add the following to our `build` section in our `pom.xml`:
+We'll add the following to our `build` section in our `pom.xml`,</br>
+This will add everything from our `src/scripts` to our project.
 
 ```xml
 <build>
@@ -201,10 +142,7 @@ We now need to add the following to our `build` section in our `pom.xml`:
 </build>
 ```
 
-This will add everything from our `src/scripts` folder to our class loader under the folder `scripts`.</br>
-So we'll be able to find our script like so: `scripts/create_message.groovy`.
-
-That's it!
+That's it, have fun and stay groovy!
 
 You can check out the code for this tutorial in [Github][0].
 
